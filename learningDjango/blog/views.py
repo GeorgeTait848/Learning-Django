@@ -1,11 +1,18 @@
 from django.shortcuts import render
-from django.http import HttpResponse
-
+from . import posts
 # Create your views here.
 
 def home(request):
 #this view is called when the user is directed to the blog home page, hence the name home. 
-    return HttpResponse('<h1> Blog Home </h1>')
+    context = {
+        'posts': posts.posts,
+        'title': 'Home',
+    }
+    return render(request, 'blog/home.html', context)
 
 def about(request): 
-    return HttpResponse('<h1>Blog About</h1>')
+
+    context = {
+        'title': 'About'
+    }
+    return render(request, 'blog/about.html', context)
