@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from .forms import UserRegisterForm
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 # Create your views here.
 def register(request):
     if request.method == 'POST':
@@ -8,8 +9,8 @@ def register(request):
         if form.is_valid():
             form.save()
             username = form.cleaned_data.get('username')
-            messages.success(request, 'Created account for {}!'.format(username))
-            return redirect('blog-home') #refers to the name attribute of the url pattern we wish to redirect to. 
+            messages.success(request, 'Account Created! You are now able to log in!')
+            return redirect('login') #refers to the name attribute of the url pattern we wish to redirect to. 
     else:
         form = UserRegisterForm()
     
@@ -18,3 +19,7 @@ def register(request):
     }
 
     return render(request, 'users/register.html', context=context)
+
+@login_required
+def profile(request): 
+    return render(request, 'users/profile.html')
